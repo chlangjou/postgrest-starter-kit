@@ -9,6 +9,13 @@ Base project and tooling for authoring REST API backends with [PostgREST](https:
 
 PostgREST enables a different way of building data driven API backends. It does "one thing well" and that is to provide you with a REST api over your database, however to build a complex production system that does things like talk to 3rd party systems, sends emails, implements real time updates for browsers, write integration tests, implement authentication, you need additional components. For this reason, some developers either submit feature requests that are not the scope of PostgREST or think of it just as a prototyping utility and not a powerful/flexible production component with excellent performance. This repository aims to be a starting point for all PostgREST based projects and bring all components together under a well defined structure. We also provide tooling that will aid you with iterating on your project and tools/scripts to enable a build pipeline to push everything to production. There are quite a few components in the stack but you can safely comment out pg_amqp_bridge/rabbitmq (or even openresty) instances in docker-compose.yml if you don't need the features/functionality they provide.
 
+## PostgREST+ as a service
+Run your PostgREST instance in [subZero cloud](https://subzero.cloud/postgrest-plus.html) and get additional features to the OS version ( [free plan](https://subzero.cloud/pricing.html) available). ALternatively, deploy an [enhanced version](https://docs.subzero.cloud/postgrest-plus/) of PostgREST on your infrastructure using binary and docker distributions.
+
+✓ **Fully Managed** &mdash; subZero automates every part of setup, running and scaling of PostgREST. Let your team focus on what they do best - building your product. Leave PostgREST management and monitoring to the experts.<br>
+✓ **Faster Queries** &mdash; Run an [enhanced PostgREST](https://docs.subzero.cloud/postgrest-plus/) version that uses prepared statements instead of inline queries. This results in up to 30% faster response times.<br>
+✓ **Custom Relations** &mdash; Define [custom relations](https://docs.subzero.cloud/postgrest-plus/) when automatic detection does not work. This allows you to use the powerful embedding feature even with the most complicated views<br>
+✓ **GraphQL API** &mdash; In addition to the REST API you get a GraphQL api with no additional coding. Leverage all the powerful tooling, libraries and integrations for GraphQL in your frontend.<br>
 
 ## Features
 
@@ -39,13 +46,10 @@ PostgREST enables a different way of building data driven API backends. It does 
 │       ├── sample_data       # A few sample rows
 │       └── init.sql          # Schema definition entry point
 ├── openresty                 # Reverse proxy configurations and Lua code
-│   ├── lualib
-│   │   └── user_code         # Application Lua code
-│   ├── nginx                 # Nginx files
-│   │   ├── conf              # Configuration files
-│   │   └── html              # Static frontend files
-│   ├── Dockerfile            # Dockerfile definition for production
-│   └── entrypoint.sh         # Custom entrypoint
+│   ├── lua                   # Application Lua code
+│   ├── nginx                 # Nginx configuration files
+│   ├── html                  # Static frontend files
+│   └── Dockerfile            # Dockerfile definition for building production images
 ├── tests                     # Tests for all the components
 │   ├── db                    # pgTap tests for the db
 │   └── rest                  # REST interface tests
@@ -117,7 +121,7 @@ npm run test_rest               # Run integration tests
 
 
 ## Deployment
-* [subZero Cloud](http://docs.subzero.cloud/production-infrastructure/subzero-cloud/) ([invite](https://subzero.cloud) required)
+* [subZero Cloud](http://docs.subzero.cloud/production-infrastructure/subzero-cloud/)
 * [Amazon ECS+RDS](http://docs.subzero.cloud/production-infrastructure/aws-ecs-rds/)
 * [Amazon Fargate+RDS](http://docs.subzero.cloud/production-infrastructure/aws-fargate-rds/)
 * [Dedicated Linux Server](https://docs.subzero.cloud/production-infrastructure/ubuntu-server/)
